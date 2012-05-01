@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -19,6 +20,8 @@ public class ExpenseActivity extends Activity {
 	
 	static String phoneNumber= "09212356239";
 	static String currentCat;
+	private static String preferencesContext = "Category";
+			
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +29,9 @@ public class ExpenseActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         ExpenseActivity.currentCat = extras.getString("Category");
         
+   
         TextView label = (TextView) findViewById(R.id.expense_name);
         label.setText(ExpenseActivity.currentCat);
-        
-        
         
         Button btn = (Button)findViewById(R.id.save_expense);
         

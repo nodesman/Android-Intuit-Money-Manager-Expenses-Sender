@@ -19,7 +19,12 @@ public class MainActivity extends Activity {
         
         LinearLayout list = (LinearLayout) findViewById(R.id.category_list);
         
-        String [] categoryList = CategoryManager.getCategories();
+        String [] categoryList;
+        
+        CategoryManager man = new CategoryManager(getBaseContext());
+        man.open();
+        
+        categoryList = man.getCategories();
         
         Button currB;
                
@@ -38,7 +43,7 @@ public class MainActivity extends Activity {
 					String cat = (String) btn.getText();
 					
 					Intent move = new Intent(MainActivity.this, ExpenseActivity.class);
-					move.putExtra("Category", cat);
+					move.putExtra("Category", cat.replace(" ", "_"));
 					startActivity(move);
 					
 				}

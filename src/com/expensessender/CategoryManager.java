@@ -20,7 +20,7 @@ public class CategoryManager {
 	private SQLiteDatabase db;
 	private CategoryListHelper adapter;
 	private static String databaseName = "thermo";
-	private static int version = 1;
+	private static int version = 2;
 			
 	
 	CategoryManager(Context context) {
@@ -45,29 +45,58 @@ public class CategoryManager {
 		db.insert("categories", null , values);
 	}
 	
-	public void deleteCategory(String categoryName)
+	public int deleteCategory(String categoryName)
 	{
-		
-	}
+		return db.delete("categories", "category = '"+categoryName+"'", null);
+	}	
 	
+	public Cursor getAllEntries() {
+		
+		return db.query("categories", new String[] { "category" }, null, null, null, null,"category ASC", null);
+	}
 	
 	public boolean categoryExists(String categoryName)
 	{
-		return false;
+		Cursor cursor = db.query("categories", new String[] { "category"} , "category = '"+categoryName+"'", null, null, null, null);
+		return (0 < cursor.getCount());
 	}
 	
 	
 	public static class CategoryListHelper extends SQLiteOpenHelper {
 
+		private String [] preloadedCategoryList = {
+				"Food",
+				"Fast Food",
+				"Confectionary",
+				"Coffee",
+				"Transit",
+				"Fuel",
+				"Electricity",
+				"Rent",
+				"Mobile Phone",
+				"Charity",
+				"Wasted"
+		};
+
 		public CategoryListHelper(Context context, String name,
 				CursorFactory factory, int version) {
 			super(context, name, factory, version);
-			// TODO Auto-generated constructor stub
+
+		}
+		
+		private void initializeData(SQLiteDatabase _db) {
+			for (int iter=0;iter<this.preloadedCategoryList.length; iter++) {
+				String preloadedSQL = "INSERT INTO categories (category) VALUES ('"+this.preloadedCategoryList[iter]+"')";
+				_db.execSQL(preloadedSQL);	
+			}
+			
 		}
 		
 		@Override
 		public void onCreate(SQLiteDatabase _db) {
 			_db.execSQL(createTableQuery);
+			initializeData(_db);
+		
 		}
 		
 		@Override
@@ -78,24 +107,26 @@ public class CategoryManager {
 		
 	}
 	
-	public static String [] getCategories() {
+	public String [] getCategories() {
 		
+		
+		Cursor cur = this.getAllEntries();
+		int count=0;
+		String [] list = new String[cur.getCount()];
+		int index = cur.getColumnIndex("category");
+		cur.moveToFirst();
+		while (count < cur.getCount()) 
+		{
+			@SuppressWarnings("unused")
+			int columns = cur.getColumnCount();
 
-		String[] list = {
-			"Food",
-			"Transit",
-			"Medical",
-			"Wasteful",
-			"Movies",
-			"Recreation",
-			"Electronics",
-			"Groceries",
-			"Eating Out",
-			"Ice cream",
-			"Traffic Fine"
-		};
-		
-		
+			String val = cur.getString(index);
+			
+			list[count] = val;
+			cur.moveToNext();
+			count++;
+		}
+				
 		return list;
 	}
 	

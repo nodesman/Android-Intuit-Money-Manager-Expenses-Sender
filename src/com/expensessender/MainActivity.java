@@ -3,6 +3,8 @@ package com.expensessender;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -18,17 +20,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         
         LinearLayout list = (LinearLayout) findViewById(R.id.category_list);
-        Button  add = (Button) findViewById(R.id.add_category);
-        add.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				
-				Intent move = new Intent(MainActivity.this, AddCategoryActivity.class);
-				startActivity(move);
-			}
-        	
-        });
         
         String [] categoryList;
         
@@ -65,5 +57,20 @@ public class MainActivity extends Activity {
         	list.addView(currB);
         }
         
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	menu.addSubMenu("Add Category");
+		return true;
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	int id = item.getItemId();
+    	if (id == 0) {
+    		Intent move = new Intent(MainActivity.this, AddCategoryActivity.class);
+			startActivity(move);
+    	}
+    	return true;
     }
 }

@@ -14,7 +14,6 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int add_category=0x7f05000b;
         public static final int add_category_button=0x7f050003;
         public static final int add_category_form_field_heading=0x7f050000;
         public static final int cancel_button=0x7f050004;
@@ -24,14 +23,15 @@ public final class R {
         public static final int expense=0x7f050006;
         public static final int expense_name=0x7f050005;
         public static final int linearLayout1=0x7f050008;
-        public static final int predef=0x7f05000c;
+        public static final int predef=0x7f05000b;
         public static final int save_expense=0x7f050007;
         public static final int scrollView1=0x7f050009;
     }
     public static final class layout {
         public static final int add_category_activity=0x7f030000;
-        public static final int expense_entry=0x7f030001;
-        public static final int main=0x7f030002;
+        public static final int cat_list=0x7f030001;
+        public static final int expense_entry=0x7f030002;
+        public static final int main=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

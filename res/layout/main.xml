@@ -6,7 +6,6 @@
     >
     <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/scrollView1" android:paddingTop="10dp" android:paddingLeft="10dp">
         <LinearLayout android:layout_margin="20dp" android:orientation="vertical" android:id="@+id/category_list" android:layout_width="match_parent" android:layout_height="match_parent">
-			        <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/add_category" android:text="Add Category"/>
 			        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/predef" android:text="Pre-defined categories" android:padding="10dp"/>
         </LinearLayout>
     </ScrollView>	

@@ -20,7 +20,7 @@ public class CategoryManager {
 	private SQLiteDatabase db;
 	private CategoryListHelper adapter;
 	private static String databaseName = "thermo";
-	private static int version = 2;
+	private static int version = 3;
 			
 	
 	CategoryManager(Context context) {
@@ -40,9 +40,8 @@ public class CategoryManager {
 	
 	public void addCategory(String categoryName)
 	{
-		ContentValues values = new ContentValues();
-		values.put("category", categoryName);
-		db.insert("categories", null , values);
+		String insertQuery = "INSERT INTO categories (category) VALUES ('"+categoryName+"');";
+		db.execSQL(insertQuery);
 	}
 	
 	public int deleteCategory(String categoryName)

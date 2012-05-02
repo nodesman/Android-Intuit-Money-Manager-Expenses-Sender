@@ -18,6 +18,17 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         
         LinearLayout list = (LinearLayout) findViewById(R.id.category_list);
+        Button  add = (Button) findViewById(R.id.add_category);
+        add.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+				Intent move = new Intent(MainActivity.this, AddCategoryActivity.class);
+				startActivity(move);
+			}
+        	
+        });
         
         String [] categoryList;
         

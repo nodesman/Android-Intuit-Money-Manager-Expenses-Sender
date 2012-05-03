@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,6 +34,21 @@ public class ExpenseActivity extends Activity {
    
         TextView label = (TextView) findViewById(R.id.expense_name);
         label.setText(ExpenseActivity.currentCat);
+        label.setTextSize(40);
+        
+        EditText textEdit = (EditText) findViewById(R.id.expense);
+        textEdit.setRawInputType(Configuration.KEYBOARD_12KEY);
+
+        textEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                	Activity activity = (Activity) v.getContext();
+                    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
+        
+        textEdit.requestFocus();
         
         Button btn = (Button)findViewById(R.id.save_expense);
         
@@ -117,6 +134,8 @@ public class ExpenseActivity extends Activity {
 	
 	public void sendExpense(String categoryName, String expense)
 	{
+		if (expense.trim().length() ==0 )
+			return;
 		  String message = "CASH "+expense+" "+categoryName;
 		  this.sendSMS(ExpenseActivity.phoneNumber, message);
 	}   

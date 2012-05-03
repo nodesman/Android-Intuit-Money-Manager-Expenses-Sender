@@ -6,11 +6,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,8 +29,9 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
-	
+	private Category [] categories ;
 	private ListView view;
+	private CategoryListAdapter adapter;
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
@@ -40,60 +43,74 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cat_list);
 
-        String [] categoryList;
-        
         CategoryManager man = new CategoryManager(getBaseContext());
         man.open();
         
-        categoryList = man.getCategories();
+        String [] categoryList = man.getCategories();
         
-        Category [] categories = new Category[categoryList.length];
+        categories = new Category[categoryList.length];
         
         for (int iter=0;iter < categoryList.length;iter++) {
         	categories[iter] = new Category(categoryList[iter]);
         }
+        
         
         Button currB = null;
         
         view = (ListView) findViewById(R.id.category_listview);
         
         
-        CategoryListAdapter adapter = new CategoryListAdapter(getBaseContext(), categories);
+        adapter = new CategoryListAdapter(getBaseContext(), categories);
         
         CategoryItemClickListener listener = new CategoryItemClickListener();
         view.setAdapter(adapter);
         view.setOnItemClickListener(listener);
         
-       /* for (int iter=0;iter < categoryList.length; iter++)
-        {
-        	currB = new Button(this);
-        	currB.setText(categoryList[iter]);
-        	//currB.setLayoutParams(params);
-
-        	currB.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg) {
-					Button btn = (Button) arg;
-					
-					String cat = (String) btn.getText();
-					
-					Intent move = new Intent(MainActivity.this, ExpenseActivity.class);
-					move.putExtra("Category", cat.replace(" ", "_"));
-					startActivity(move);
-					
-				}
-        		
-        		
-        	});*/
+        CategoryItemLongClickListener longlistener = new CategoryItemLongClickListener();
+        view.setOnItemLongClickListener(longlistener);
+        registerForContextMenu(view);
+       
         	
-        }
+     }
     
-    @Override 
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
-    {
-    	 super.onCreateContextMenu(menu, v, menuInfo);
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+      AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+      //int menuItemIndex = item.getItemId();
+
+      String listItemName = categories[info.position].toString();
+      CategoryManager manager = new CategoryManager(getBaseContext());
+      manager.open();
+      manager.deleteCategory(listItemName);
+      CategoryManager man = new CategoryManager(getBaseContext());
+      man.open();
+      
+      String [] categoryList = man.getCategories();
+      
+      man.close();
+      
+      categories = new Category[categoryList.length];
+      
+      for (int iter=0;iter < categoryList.length;iter++) {
+      	categories[iter] = new Category(categoryList[iter]);
+      }
+      
+      CategoryListAdapter adapter = new CategoryListAdapter(getBaseContext(), categories);
+      view.setAdapter(adapter);
+      adapter.notifyDataSetChanged();
+      
+      
+      return true;
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     	
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    	
+    	MenuInflater inf = getMenuInflater();
+    	inf.inflate(R.menu.delete_cat, menu);
+
     }
     
     
@@ -102,9 +119,8 @@ public class MainActivity extends Activity {
 		@Override
 		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 				int arg2, long arg3) {
-			
-			ContextMenu menu = new ContextMenu(view.getContext())l;
-			
+			Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+			v.vibrate(50);
 			
 			return false;
 		}
@@ -149,6 +165,22 @@ public class MainActivity extends Activity {
 
 		private Context context;
 		private Category[] categories;
+		
+		private Category [] getCategoriesObjects() {
+			CategoryManager man = new CategoryManager(getBaseContext());
+	        man.open();
+	        
+	        String [] categoryList = man.getCategories();
+	        man.close();
+	        
+	        categories = new Category[categoryList.length];
+	        
+	        for (int iter=0;iter < categoryList.length;iter++) {
+	        	categories[iter] = new Category(categoryList[iter]);
+	        }
+	        return categories;
+		}
+		
 
 		public CategoryListAdapter(Context context, Category [] items) {
 			super(context, R.layout.category_list_item, items);
@@ -170,6 +202,8 @@ public class MainActivity extends Activity {
 				viewholder.text = (TextView) rowView.findViewById(R.id.category_list_item_label);
 				rowView.setTag(viewholder);
 			}
+			
+			Log.e("GetView","Getting view for position"+position);
 			
 			ViewHolder holder = (ViewHolder) rowView.getTag();
 			String s = categories[position].toString();

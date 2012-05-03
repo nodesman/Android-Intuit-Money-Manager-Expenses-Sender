@@ -20,7 +20,7 @@ public class CategoryManager {
 	private SQLiteDatabase db;
 	private CategoryListHelper adapter;
 	private static String databaseName = "thermo";
-	private static int version = 3;
+	private static int version = 4;
 			
 	
 	CategoryManager(Context context) {
@@ -44,9 +44,9 @@ public class CategoryManager {
 		db.execSQL(insertQuery);
 	}
 	
-	public int deleteCategory(String categoryName)
+	public void deleteCategory(String categoryName)
 	{
-		return db.delete("categories", "category = '"+categoryName+"'", null);
+		db.execSQL("DELETE FROM categories WHERE category='"+categoryName+"';");
 	}	
 	
 	public Cursor getAllEntries() {
@@ -57,7 +57,9 @@ public class CategoryManager {
 	public boolean categoryExists(String categoryName)
 	{
 		Cursor cursor = db.query("categories", new String[] { "category"} , "category = '"+categoryName+"'", null, null, null, null);
-		return (0 < cursor.getCount());
+		int count = cursor.getCount();
+		cursor.close();
+		return (0 < count);
 	}
 	
 	
@@ -125,6 +127,7 @@ public class CategoryManager {
 			cur.moveToNext();
 			count++;
 		}
+		cur.close();
 				
 		return list;
 	}

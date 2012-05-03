@@ -21,8 +21,7 @@ public class AddCategoryActivity extends Activity {
 		 view.requestFocus();
 		 
 		 AddCategoryButtonListener listener = new AddCategoryButtonListener(view);
-		 
-		 
+
 		 Button addCategory = (Button) findViewById(R.id.add_category_button);
 		 addCategory.setOnClickListener(listener);
 		 

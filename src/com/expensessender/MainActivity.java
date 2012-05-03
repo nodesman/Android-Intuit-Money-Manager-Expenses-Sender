@@ -6,6 +6,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +16,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -51,8 +57,12 @@ public class MainActivity extends Activity {
         
         view = (ListView) findViewById(R.id.category_listview);
         
+        
         CategoryListAdapter adapter = new CategoryListAdapter(getBaseContext(), categories);
+        
+        CategoryItemClickListener listener = new CategoryItemClickListener();
         view.setAdapter(adapter);
+        view.setOnItemClickListener(listener);
         
        /* for (int iter=0;iter < categoryList.length; iter++)
         {
@@ -78,7 +88,48 @@ public class MainActivity extends Activity {
         	});*/
         	
         }
+    
+    @Override 
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
+    {
+    	 super.onCreateContextMenu(menu, v, menuInfo);
+    	
+    }
+    
+    
+    class CategoryItemLongClickListener implements OnItemLongClickListener{
+
+		@Override
+		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+				int arg2, long arg3) {
+			
+			ContextMenu menu = new ContextMenu(view.getContext())l;
+			
+			
+			return false;
+		}
+    	
+    }
         
+    class CategoryItemClickListener implements OnItemClickListener {
+    	CategoryItemClickListener() {
+    		
+    	}
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			TextView cat =  (TextView) view.findViewById(R.id.category_list_item_label);
+			String label = cat.getText().toString();
+			
+			Category cat1 = (Category) arg0.getItemAtPosition((int) arg3);
+			
+			Intent move = new Intent(MainActivity.this, ExpenseActivity.class);
+			move.putExtra("Category", cat1.toString().replace(" ", "_"));
+			startActivity(move);
+		}
+    	
+    }
     
     class Category {
     	public String name="";

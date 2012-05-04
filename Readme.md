@@ -15,4 +15,4 @@ This application does NOT use any web service.
 
 ## List of Categories
 
-![List](/images/1.png)
+![List](images/1.png)

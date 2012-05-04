@@ -61,6 +61,12 @@ public class ExpenseActivity extends Activity {
 				EditText expense = (EditText) findViewById(R.id.expense);
 				String exp =  expense.getText().toString();
 				sendExpense(category, exp);
+				CategoryManager manager = new CategoryManager(getBaseContext());
+				manager.open();
+				manager.incrementUsage(category);
+				manager.close();
+				Intent move = new Intent(ExpenseActivity.this, MainActivity.class);
+				startActivity(move);
 			}
         	
         });

@@ -72,6 +72,12 @@ public class MainActivity extends Activity {
        
         	
      }
+    @Override
+    public void onResume() {
+    	
+    	this.reloadListAdapter();
+    	super.onResume();
+    }
     
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -82,25 +88,31 @@ public class MainActivity extends Activity {
       CategoryManager manager = new CategoryManager(getBaseContext());
       manager.open();
       manager.deleteCategory(listItemName);
-      CategoryManager man = new CategoryManager(getBaseContext());
-      man.open();
-      
-      String [] categoryList = man.getCategories();
-      
-      man.close();
-      
-      categories = new Category[categoryList.length];
-      
-      for (int iter=0;iter < categoryList.length;iter++) {
-      	categories[iter] = new Category(categoryList[iter]);
-      }
-      
-      CategoryListAdapter adapter = new CategoryListAdapter(getBaseContext(), categories);
-      view.setAdapter(adapter);
-      adapter.notifyDataSetChanged();
+      this.reloadListAdapter();
       
       
       return true;
+    }
+    
+    public void reloadListAdapter() {
+    	CategoryManager man = new CategoryManager(getBaseContext());
+        man.open();
+        
+        String [] categoryList = man.getCategories();
+        
+        man.close();
+        Category [] categories;
+        
+        categories = new Category[categoryList.length];
+        
+        for (int iter=0;iter < categoryList.length;iter++) {
+        	categories[iter] = new Category(categoryList[iter]);
+        }
+        
+
+    	CategoryListAdapter adapter = new CategoryListAdapter(getBaseContext(), categories);
+        view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
     
     @Override

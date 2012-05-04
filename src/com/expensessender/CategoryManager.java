@@ -16,11 +16,11 @@ public class CategoryManager {
 	
 	private Context context;
 	private static String createTableQuery = "CREATE TABLE " +
-					"categories (category varchar(100) not null primary key);";
+					"categories (category varchar(100) not null primary key, `used` int DEFAULT 0);";
 	private SQLiteDatabase db;
 	private CategoryListHelper adapter;
 	private static String databaseName = "thermo";
-	private static int version = 4;
+	private static int version = 5;
 			
 	
 	CategoryManager(Context context) {
@@ -29,9 +29,14 @@ public class CategoryManager {
 
 	}
 	
+	public void incrementUsage(String category) {
+		String query = "UPDATE categories SET used=used+1 WHERE category='"+category+"';";
+		db.execSQL(query);
+	}
+	
 	public CategoryManager open() throws SQLException {
 		db = this.adapter.getWritableDatabase();
-		return this;		
+		return this;
 	}
 	
 	public void close() {
@@ -51,7 +56,7 @@ public class CategoryManager {
 	
 	public Cursor getAllEntries() {
 		
-		return db.query("categories", new String[] { "category" }, null, null, null, null,"category ASC", null);
+		return db.query("categories", new String[] { "category" }, null, null, null, null,"used DESC", null);
 	}
 	
 	public boolean categoryExists(String categoryName)

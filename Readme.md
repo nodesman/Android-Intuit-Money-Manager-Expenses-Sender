@@ -15,4 +15,4 @@ This application does NOT use any web service.
 
 ## List of Categories
 
-![List](images/1.png)
+![List](https://github.com/rajasekharan/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/1.png)

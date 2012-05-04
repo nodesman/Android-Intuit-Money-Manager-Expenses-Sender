@@ -24,7 +24,7 @@ This application does NOT use any web service.
 
 ## Adding a custom category (Press menu)
 
-![Add](https://github.com/rajasekharan/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/blob/master/images/3.png)
+![Add](https://github.com/rajasekharan/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/3.png)
 
 ## Adding a custom category interface
 

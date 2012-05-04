@@ -5,7 +5,7 @@ This is an app that is used to send cash expenses to Intuit Money Manager servic
 
 The expenses are sent via SMS in the format:
 
-CASH <EXPENESE VALUE> <EXPENSE NAME> amount to the Intuit Money Manager phone number: 09212356239
+CASH &lt;EXPENESE VALUE&gt; &lt;EXPENSE NAME&gt; amount to the Intuit Money Manager phone number: 09212356239
 
 This application does NOT use any web service. 
 

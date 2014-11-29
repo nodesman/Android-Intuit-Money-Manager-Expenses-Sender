@@ -15,17 +15,17 @@ This application does NOT use any web service.
 
 ## List of Categories
 
-![List](https://github.com/rajasekharan/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/1.png)
+![List](https://github.com/nodesman/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/1.png)
 
 
 ## Sending a expense
 
-![Send](https://github.com/rajasekharan/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/2.png)
+![Send](https://github.com/nodesman/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/2.png)
 
 ## Adding a custom category (Press menu)
 
-![Add](https://github.com/rajasekharan/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/3.png)
+![Add](https://github.com/nodesman/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/3.png)
 
 ## Adding a custom category interface
 
-![AddInterface](https://github.com/rajasekharan/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/4.png)
+![AddInterface](https://github.com/nodesman/Android-Intuit-Money-Manager-Expenses-Sender-For-Android/raw/master/images/4.png)
